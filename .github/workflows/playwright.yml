@@ -4,7 +4,7 @@ on :
     branches: 
       - main
 
-  jobs: 
+jobs: 
     tests: 
     # we get a machine or VM where we are going to perform the actions 
       runs-on: ubuntu-latest
