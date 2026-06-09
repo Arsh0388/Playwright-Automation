@@ -1,0 +1,42 @@
+name : Playwright-Test-Run 
+on : 
+  push: 
+  branches: 
+    - main
+
+  jobs: 
+    tests: 
+    # we get a machine or VM where we are going to perform the actions 
+      runs-on: ubuntu-latest
+      # then we have certain actions we need to perfrom for this job 
+      # first get the code on this Virtual Machine 
+      steps: 
+      - name: Checkout-repository 
+        uses: actions/checkout@v4
+      # then we get the java language setup and maven which are required just like we need on our local machine 
+      # https://github.com/Arsh0388/Playwright-Automation/new/main?filename=.github%2Fworkflows%2Fmaven.yml&workflow_template=ci%2Fmaven 
+      - name: Set Up Java 
+        uses: actions/setup-java@v4
+        # installs this version of java like 21 , 
+        with: 
+          java-version: '21'
+          distribuition: 'temurin'
+          cache: maven
+      # build this project with maven 
+      - name: Build With Maven 
+        uses: actions/cache@v4
+        with: 
+          path: ~/.m2/repository
+          key: 
+      # verify java version 
+      - name: Verify Java Version 
+        run: | 
+              java --version
+              mvn --version
+      # 
+      - name: Install Maven Dependencies
+        run: mvn clean compile
+      # run the tests 
+      - name: Run Test Cases 
+        run: mvn clean test 
+
